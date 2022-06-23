@@ -3,5 +3,5 @@ export interface ICreateClientDTO {
   birthdate: Date;
   age: number;
   gender: string;
-  city: string;
+  city_id: string;
 }

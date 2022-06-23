@@ -14,12 +14,12 @@ export class FindCityByIdUseCase {
   async execute(id: string): Promise<ICity> {
     const isValidId = this.citiesRepository.validateId(id);
     if (!isValidId) {
-      throw new FindCityByIdError.InvalidId;
+      throw new FindCityByIdError.InvalidId();
     }
     const city = await this.citiesRepository.findById(id);
 
     if (!city) {
-      throw new FindCityByIdError.NotFound;
+      throw new FindCityByIdError.NotFound();
     }
     return city;
   }

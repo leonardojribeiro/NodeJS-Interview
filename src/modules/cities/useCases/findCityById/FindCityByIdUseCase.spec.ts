@@ -12,22 +12,22 @@ let findCityByIdUseCase: FindCityByIdUseCase;
 let inMemoryCitiesRepository: InMemoryCitiesRepository;
 
 describe("Find City By Id", () => {
-  beforeEach(() => {
+  beforeAll(async () => {
     inMemoryCitiesRepository = new InMemoryCitiesRepository();
     createCityUseCase = new CreateCityUseCase(inMemoryCitiesRepository);
     findCityByIdUseCase = new FindCityByIdUseCase(inMemoryCitiesRepository);
     findCitiesUseCase = new FindCitiesUseCase(inMemoryCitiesRepository);
-  });
-
-  it("Should be able to find a city by id", async () => {
     const city: ICreateCityDTO = {
       name: "Faina",
       state: "Goiás",
     };
     await createCityUseCase.execute(city);
+  });
+
+  it("Should be able to find a city by id", async () => {
     const cities = await findCitiesUseCase.execute({});
-    const createdCity = cities[0];
-    const foundCity = await findCityByIdUseCase.execute(createdCity.id);
+    const city = cities[0];
+    const foundCity = await findCityByIdUseCase.execute(city.id);
     expect(foundCity.id).toBeDefined();
     expect(foundCity.name).toBe("Faina");
     expect(foundCity.state).toBe("Goiás");
@@ -44,6 +44,4 @@ describe("Find City By Id", () => {
       await findCityByIdUseCase.execute("aesdfr25");
     }).rejects.toBeInstanceOf(FindCityByIdError.InvalidId);
   });
-
-
 }); 

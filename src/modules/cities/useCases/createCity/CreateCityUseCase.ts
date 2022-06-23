@@ -13,14 +13,14 @@ export class CreateCityUseCase {
 
   async execute({ name, state }: ICreateCityDTO): Promise<void> {
     if (!name) {
-      throw new CreateCityError.EmptyName;
+      throw new CreateCityError.EmptyName();
     }
     if (!state) {
-      throw new CreateCityError.EmptyState;
+      throw new CreateCityError.EmptyState();
     }
     const cityAlreadyExists = await this.citiesRepository.countByNameAndState(name, state);
     if (cityAlreadyExists) {
-      throw new CreateCityError.CityAlreadyExists;
+      throw new CreateCityError.CityAlreadyExists();
     }
     await this.citiesRepository.create({
       name,
