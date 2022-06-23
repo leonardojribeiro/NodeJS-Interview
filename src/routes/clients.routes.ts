@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CreateClientController } from "../modules/clients/useCases/createClient/CreateClientController";
-import { DeleteClientByIdController } from "../modules/clients/useCases/deleteClient/DeleteClientByIdController";
+import { DeleteClientByIdController } from "../modules/clients/useCases/deleteClientById/DeleteClientByIdController";
 import { FindClientByIdController } from "../modules/clients/useCases/findClientById/FindClientByIdController";
 import { FindClientsController } from "../modules/clients/useCases/findClients/FindClientsController";
 import { UpdateFullnameOfClientController } from "../modules/clients/useCases/updateFullNameOfClient/UpdateFullNameOfClientController";

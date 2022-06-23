@@ -7,7 +7,7 @@ import { FindCityByIdUseCase } from "../../modules/cities/useCases/findCityById/
 import { ClientsRepository } from "../../modules/clients/infra/mongodb/repositories/implementations/ClientsRepository";
 import { IClientsRespository } from "../../modules/clients/repositories/IClientsRespository";
 import { CreateClientUseCase } from "../../modules/clients/useCases/createClient/CreateClientUseCase";
-import { DeleteClientByIdUseCase } from "../../modules/clients/useCases/deleteClient/DeleteClientByIdUseCase";
+import { DeleteClientByIdUseCase } from "../../modules/clients/useCases/deleteClientById/DeleteClientByIdUseCase";
 import { FindClientByIdUseCase } from "../../modules/clients/useCases/findClientById/FindClientByIdUseCase";
 import { FindClientsUseCase } from "../../modules/clients/useCases/findClients/FindClientsUseCase";
 import { UpdateFullNameOfClientUseCase } from "../../modules/clients/useCases/updateFullNameOfClient/UpdateFullNameOfClientUseCase";

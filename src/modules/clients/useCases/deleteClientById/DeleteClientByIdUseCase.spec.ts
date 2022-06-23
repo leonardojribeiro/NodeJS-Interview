@@ -3,14 +3,14 @@ import { ICitiesRepository } from "../../../cities/repositories/ICitiesRepositor
 import { InMemoryCitiesRepository } from "../../../cities/repositories/in-memory/InMemoryCitiesRepository";
 import { ICreateCityDTO } from "../../../cities/useCases/createCity/CreateCityDTO";
 import { CreateCityUseCase } from "../../../cities/useCases/createCity/CreateCityUseCase";
-import { FindCitiesUseCase } from "../../../cities/useCases/findCities/FindCitiesUseCase"; 
+import { FindCitiesUseCase } from "../../../cities/useCases/findCities/FindCitiesUseCase";
 import { IClientsRespository } from "../../repositories/IClientsRespository";
 import { InMemoryClientsRepository } from "../../repositories/in-memory/InMemoryClientsRepository";
 import { CreateClientUseCase } from "../createClient/CreateClientUseCase";
 import { ICreateClientDTO } from "../createClient/ICreateClientDTO";
 import { FindClientsUseCase } from "../findClients/FindClientsUseCase";
-import { FindClientByIdError } from "./FindClientByIdError";
-import { FindClientByIdUseCase } from "./FindClientByIdUseCase";
+import { DeleteClientByIdError } from "./DeleteClientByIdError";
+import { DeleteClientByIdUseCase } from "./DeleteClientByIdUseCase";
 
 let inMemoryCitiesRepository: ICitiesRepository;
 let createCityUseCase: CreateCityUseCase;
@@ -19,10 +19,10 @@ let findCitiesUseCase: FindCitiesUseCase;
 let inMemoryClientsRepository: IClientsRespository;
 let createClientUseCase: CreateClientUseCase;
 let findClientsUseCase: FindClientsUseCase;
-let findClientByIdUseCase: FindClientByIdUseCase;
-let city_id: string;
+let deleteClientByIdUseCase: DeleteClientByIdUseCase;
 
-describe("Find Client By Id", () => {
+
+describe("Delete Client By Id", () => {
   beforeAll(async () => {
     inMemoryCitiesRepository = new InMemoryCitiesRepository();
     createCityUseCase = new CreateCityUseCase(inMemoryCitiesRepository);
@@ -31,7 +31,7 @@ describe("Find Client By Id", () => {
     inMemoryClientsRepository = new InMemoryClientsRepository(inMemoryCitiesRepository);
     createClientUseCase = new CreateClientUseCase(inMemoryClientsRepository, inMemoryCitiesRepository);
     findClientsUseCase = new FindClientsUseCase(inMemoryClientsRepository);
-    findClientByIdUseCase = new FindClientByIdUseCase(inMemoryClientsRepository);
+    deleteClientByIdUseCase = new DeleteClientByIdUseCase(inMemoryClientsRepository);
 
     const city: ICreateCityDTO = {
       name: "Faina",
@@ -39,7 +39,7 @@ describe("Find Client By Id", () => {
     };
     await createCityUseCase.execute(city);
     const cities = await findCitiesUseCase.execute({});
-    city_id = cities[0].id;
+    const city_id = cities[0].id;
 
 
     const client: ICreateClientDTO = {
@@ -50,30 +50,35 @@ describe("Find Client By Id", () => {
       city_id,
     }
 
+    const client2: ICreateClientDTO = {
+      fullName: "Maria da Silva",
+      age: 20,
+      birthdate: new Date("2002-01-16"),
+      gender: "female",
+      city_id,
+    }
+
     await createClientUseCase.execute(client);
+    await createClientUseCase.execute(client2);
   });
 
-  it("Should be able to find a client by id", async () => {
-    const clients = await findClientsUseCase.execute({});
+  it("Should be able to delete a client by id", async () => {
+    let clients = await findClientsUseCase.execute({});
     const client = clients[0];
-    const foundClient = await findClientByIdUseCase.execute(client.id);
-    expect(foundClient.id).toBeDefined();
-    expect(foundClient.fullName).toBe("Leonardo Jardim Ribeiro");
-    expect(foundClient.age).toBe(23);
-    expect(foundClient.birthdate).toBeDefined();
-    expect(foundClient.gender).toBe("masculine");
-    expect(foundClient.city.id).toBe(city_id);
+    await deleteClientByIdUseCase.execute(client.id);
+    clients = await findClientsUseCase.execute({});
+    expect(clients).toHaveLength(1);
   });
 
-  it("Should not be able to find a client that not exists", async () => {
+  it("Should not be able to delete a client that not exists", async () => {
     expect(async () => {
-      await findClientByIdUseCase.execute(new Types.ObjectId().toString());
-    }).rejects.toBeInstanceOf(FindClientByIdError.NotFound);
+      await deleteClientByIdUseCase.execute(new Types.ObjectId().toString());
+    }).rejects.toBeInstanceOf(DeleteClientByIdError.NotFound);
   });
 
-  it("Should not be able to find a client with a invalid id", async () => {
+  it("Should not be able to delete a client with a invalid id", async () => {
     expect(async () => {
-      await findClientByIdUseCase.execute('123456');
-    }).rejects.toBeInstanceOf(FindClientByIdError.InvalidId);
+      await deleteClientByIdUseCase.execute('123456');
+    }).rejects.toBeInstanceOf(DeleteClientByIdError.InvalidId);
   });
 });

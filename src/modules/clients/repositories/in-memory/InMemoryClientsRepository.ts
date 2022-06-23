@@ -13,16 +13,25 @@ export class InMemoryClientsRepository implements IClientsRespository {
     private readonly citiesRepository: ICitiesRepository
   ) { }
 
-  deleteById(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async deleteById(id: string): Promise<void> {
+    const index = this.clients.findIndex(client => client.id === id);
+    if (index === -1) {
+      throw new Error("User not found");
+    }
+    this.clients.splice(index, 1);
   }
 
-  updateFullName(data: IUpdateFullNameOfClientDTO): Promise<void> {
-    throw new Error("Method not implemented.");
+  async updateFullName({ fullName, id }: IUpdateFullNameOfClientDTO): Promise<void> {
+    const index = this.clients.findIndex(client => client.id === id);
+    if (index === -1) {
+      throw new Error("User not found");
+    }
+    this.clients[index].fullName = fullName;
   }
 
-  countByFullNameAndDifferentId(fullname: string, id: string): Promise<number> {
-    throw new Error("Method not implemented.");
+  async countByFullNameAndDifferentId(fullName: string, id: string): Promise<number> {
+    const matches = this.clients.filter(client => client.fullName.toLowerCase() === fullName.toLowerCase() && client.id !== id);
+    return matches.length;
   }
 
   async findById(id: string): Promise<IClientWithCity | null> {
@@ -49,7 +58,6 @@ export class InMemoryClientsRepository implements IClientsRespository {
       city: city_id,
       gender,
     };
-
     this.clients.push(client);
   }
 
@@ -80,7 +88,4 @@ export class InMemoryClientsRepository implements IClientsRespository {
     const clientsWithCity = await Promise.all(clientsWithCityPromise);
     return clientsWithCity;
   }
-
-
-
 }

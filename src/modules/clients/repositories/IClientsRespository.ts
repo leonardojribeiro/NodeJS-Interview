@@ -6,7 +6,7 @@ import { IUpdateFullNameOfClientDTO } from "../useCases/updateFullNameOfClient/I
 export interface IClientsRespository {
   deleteById(id: string): Promise<void>;
   updateFullName(data: IUpdateFullNameOfClientDTO): Promise<void>;
-  countByFullNameAndDifferentId(fullname: string, id: string): Promise<number>;
+  countByFullNameAndDifferentId(fullName: string, id: string): Promise<number>;
   findById(id: string): Promise<IClientWithCity | null>;
   create(data: ICreateClientDTO): Promise<void>;
   countByFullName(fullName: string): Promise<number>;

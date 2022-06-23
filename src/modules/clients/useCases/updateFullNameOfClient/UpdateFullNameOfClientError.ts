@@ -6,7 +6,7 @@ export namespace UpdateFullNameOfClientError {
       super('The "fullname" can not be empty.');
     }
   }
-  export class ClientAlreadyExists extends AppError {
+  export class ClientWithSameFullNameAlreadyExists extends AppError {
     constructor() {
       super('Client alread exists.');
     }

@@ -24,7 +24,7 @@ export class UpdateFullNameOfClientUseCase {
     }
     const anotherClientWithSameFullname = await this.clientsRepository.countByFullNameAndDifferentId(fullName, id);
     if (anotherClientWithSameFullname) {
-      throw new UpdateFullNameOfClientError.ClientAlreadyExists();
+      throw new UpdateFullNameOfClientError.ClientWithSameFullNameAlreadyExists();
     }
     await this.clientsRepository.updateFullName({
       fullName,
