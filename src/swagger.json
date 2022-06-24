@@ -1,0 +1,361 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NodeJS Interview Documentation",
+    "description": "Esta é a documentação da API desenvolvida como requisito inicial para a entrevista técnica.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "leonardojr410@gmail.com",
+      "telephone": "+5562993063269"
+    }
+  },
+  "paths": {
+    "/cities": {
+      "post": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Criar uma cidade",
+        "description": "Cria uma cidade.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CreateCity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cidade criada."
+          },
+          "400": {
+            "description": "Cidade não criada (problemas de validação)."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Listar cidades",
+        "description": "Lista todas as cidades cadastradas.",
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Consulta cidades pelo nome.",
+            "in": "query"
+          },
+          {
+            "name": "state",
+            "description": "Consulta cidades pelo nome do estado.",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/City"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/{id}": {
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Listar cidade por id",
+        "description": "Lista uma cidade pelo seu id.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id da cidade.",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/City"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Problemas de validação do id."
+          },
+          "404": {
+            "description": "Cidade não encontrada."
+          }
+        }
+      }
+    },
+    "/clients": {
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Criar Cliente",
+        "description": "Cria um novo cliente.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CreateClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente criado."
+          },
+          "400": {
+            "description": "Cliente não criado (problemas de validação)."
+          },
+          "404": {
+            "description": "Cidade não encontrada."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Listar Clientes",
+        "description": "Lista todos os clientes cadastrados.",
+        "parameters": [
+          {
+            "name": "fullName",
+            "description": "Consulta clientes pelo nome completo.",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Client"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Listar cliente por id",
+        "description": "Lista um cliente pelo seu id.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id do cliente.",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Client"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Problemas de validação do id."
+          },
+          "404": {
+            "description": "Cliente não encontrado."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Alterar o nome completo do cliente",
+        "description": "Altera o nome completo do cliente através do seu id.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id do cliente.",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/UpdateFullNameClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "description": "Cliente não alterado (problemas de validação)."
+          },
+          "404": {
+            "description": "Cliente não encontrado."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Deletar um cliente",
+        "description": "Deleta um cliente pelo seu id.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id do cliente.",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Sucesso."
+          },
+          "400": {
+            "description": "Problemas de validação do id."
+          },
+          "404": {
+            "description": "Cliente não encontrado."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateCity": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "O nome da cidade.",
+          "example": "Faina"
+        },
+        "state": {
+          "type": "string",
+          "description": "O estado da cidade.",
+          "example": "Goiás"
+        }
+      }
+    },
+    "City": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "O id da cidade."
+        },
+        "name": {
+          "type": "string",
+          "description": "O nome da cidade."
+        },
+        "state": {
+          "type": "string",
+          "description": "O estado da cidade."
+        }
+      }
+    },
+    "CreateClient": {
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "description": "O nome completo do cliente.",
+          "example": "Leonardo Jardim Ribeiro"
+        },
+        "birthdate": {
+          "type": "string",
+          "description": "A data de nascimento do cliente.",
+          "example": "1998-06-25"
+        },
+        "age": {
+          "type": "number",
+          "description": "A idade do cliente.",
+          "example": 23
+        },
+        "gender": {
+          "type": "string",
+          "example": "Faina",
+          "description": "masculine"
+        },
+        "city_id": {
+          "type": "string",
+          "description": "O id da cidade do cliente.",
+          "example": "62b5171194884f745f1065c2"
+        }
+      }
+    },
+    "Client": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "O id do cliente."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "O nome completo do cliente."
+        },
+        "birthdate": {
+          "type": "string",
+          "description": "A data de nascimento do cliente."
+        },
+        "age": {
+          "type": "number",
+          "description": "A idade do cliente."
+        },
+        "gender": {
+          "type": "string",
+          "description": "O gênero do cliente."
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        }
+      }
+    },
+    "UpdateFullNameClient": {
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "description": "O novo nome completo do cliente.",
+          "example": "Leonardo J. Ribeiro"
+        }
+      }
+    }
+  }
+}
