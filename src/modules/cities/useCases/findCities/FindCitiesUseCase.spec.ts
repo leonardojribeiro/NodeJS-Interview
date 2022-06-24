@@ -29,16 +29,25 @@ describe("Find Cities", () => {
   it("Should be able to find registered cities", async () => {
     const cities = await findCitiesUseCase.execute({});
     expect(cities).toHaveLength(2);
+    expect(cities[0]).toHaveProperty("id");
+    expect(cities[0]).toHaveProperty("name");
+    expect(cities[0]).toHaveProperty("state");
   });
 
   it("Should be able to search cities by name", async () => {
     const cities = await findCitiesUseCase.execute({ name: "Faina" });
     expect(cities).toHaveLength(1);
+    expect(cities[0]).toHaveProperty("id");
+    expect(cities[0]).toHaveProperty("name");
+    expect(cities[0]).toHaveProperty("state");
   });
 
   it("Should be able to search cities by state", async () => {
     const cities = await findCitiesUseCase.execute({ state: "Goiás" });
     expect(cities).toHaveLength(2);
+    expect(cities[0]).toHaveProperty("id");
+    expect(cities[0]).toHaveProperty("name");
+    expect(cities[0]).toHaveProperty("state");
   });
 
   it("Should be able to search cities by name and state", async () => {
@@ -47,6 +56,9 @@ describe("Find Cities", () => {
       state: "Goiás",
     });
     expect(cities).toHaveLength(1);
+    expect(cities[0]).toHaveProperty("id");
+    expect(cities[0]).toHaveProperty("name");
+    expect(cities[0]).toHaveProperty("state");
   });
 
   it("Should not be able to show cities when not satisfies the query", async () => {

@@ -59,6 +59,20 @@ describe("Create Client", () => {
     expect(createdClient.city.id).toBe(city_id);
   });
 
+  it("Should not be able to create a new client with a fullname that alread exists", async () => {
+    const client: ICreateClientDTO = {
+      fullName: "Leonardo Jardim Ribeiro",
+      age: 23,
+      birthdate: new Date("1998-06-25"),
+      gender: "masculine",
+      city_id,
+    }
+    await createClientUseCase.execute(client);
+    expect(async () => {
+      await createClientUseCase.execute(client);
+    }).rejects.toBeInstanceOf(CreateClientError.ClientAlreadyExists);
+  });
+
   it("Should not be able to create a client without a fullName", async () => {
     const client: ICreateClientDTO = {
       fullName: "",
@@ -136,7 +150,7 @@ describe("Create Client", () => {
       await createClientUseCase.execute(client);
     }).rejects.toBeInstanceOf(CreateClientError.InvalidCityId)
   });
-  
+
   it("Should not be able to create a client with a city that does not exits", async () => {
     const client: ICreateClientDTO = {
       fullName: "Leonardo Jardim Ribeiro",

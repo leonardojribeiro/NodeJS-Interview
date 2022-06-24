@@ -8,36 +8,31 @@ import { AppError } from './shared/errors/AppError';
 import { router } from './routes';
 import { setupDependencies } from './shared/container';
 
-export async function initializeApp() {
-  const app = express();
+const app = express();
 
-  app.use(cors());
+app.use(cors());
 
-  app.use(express.json());
+app.use(express.json());
 
-  await connectDatabase();
+connectDatabase();
 
-  setupDependencies();
+setupDependencies();
 
-  app.use(router);
+app.use(router);
 
-  app.use(
-    (err: Error, request: express.Request, response: express.Response, _next: express.NextFunction) => {
-      if (err instanceof AppError) {
-        return response.status(err.statusCode).json({
-          message: err.message
-        });
-      }
-
-      return response.status(500).json({
-        status: "error",
-        message: `Internal server error - ${err.message} `,
+app.use(
+  (err: Error, request: express.Request, response: express.Response, _next: express.NextFunction) => {
+    if (err instanceof AppError) {
+      return response.status(err.statusCode).json({
+        message: err.message
       });
     }
-  );
 
-  const port = process.env.PORT || 3333;
+    return response.status(500).json({
+      status: "error",
+      message: `Internal server error - ${err.message} `,
+    });
+  }
+);
 
-  app.listen(port, () => console.log("Server is listening on port " + port))
-}
-
+export { app };

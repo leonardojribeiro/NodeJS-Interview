@@ -17,10 +17,6 @@ export class CreateClientUseCase {
     if (!fullName) {
       throw new CreateClientError.EmptyFullName();
     }
-    const clientAlreadyExists = await this.clientsRepository.countByFullName(fullName);
-    if (clientAlreadyExists) {
-      throw new CreateClientError.ClientAlreadyExists();
-    }
     if (isNaN(age)) {
       throw new CreateClientError.EmptyAge();
     }
@@ -40,6 +36,10 @@ export class CreateClientUseCase {
     const cityExists = await this.citiesRepository.findById(city_id);
     if (!cityExists) {
       throw new CreateClientError.CityNotFound();
+    }
+    const clientAlreadyExists = await this.clientsRepository.countByFullName(fullName);
+    if (clientAlreadyExists) {
+      throw new CreateClientError.ClientAlreadyExists();
     }
     await this.clientsRepository.create({
       fullName,

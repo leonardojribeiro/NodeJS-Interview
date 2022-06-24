@@ -59,13 +59,31 @@ describe("Find Clients", () => {
   it("Should be able to find registered clients", async () => {
     const clients = await findClientsUseCase.execute({});
     expect(clients).toHaveLength(2);
+    expect(clients[0]).toHaveProperty("id");
+    expect(clients[0]).toHaveProperty("fullName");
+    expect(clients[0]).toHaveProperty("age");
+    expect(clients[0]).toHaveProperty("birthdate");
+    expect(clients[0]).toHaveProperty("gender");
+    expect(clients[0]).toHaveProperty("city");
+    expect(clients[0].city).toHaveProperty("id");
+    expect(clients[0].city).toHaveProperty("name");
+    expect(clients[0].city).toHaveProperty("state");
   });
 
   it("Should be able to search for registered clients by fullName", async () => {
     const clients = await findClientsUseCase.execute({
       fullName: "leo"
     });
-    expect(clients).toHaveLength(1);
+    expect(clients).toHaveLength(1); 
+    expect(clients[0]).toHaveProperty("id");
+    expect(clients[0]).toHaveProperty("fullName");
+    expect(clients[0]).toHaveProperty("age");
+    expect(clients[0]).toHaveProperty("birthdate");
+    expect(clients[0]).toHaveProperty("gender");
+    expect(clients[0]).toHaveProperty("city");
+    expect(clients[0].city).toHaveProperty("id");
+    expect(clients[0].city).toHaveProperty("name");
+    expect(clients[0].city).toHaveProperty("state");
   });
 
   it("Should not be able to show clients when not satisfies the query", async () => {
