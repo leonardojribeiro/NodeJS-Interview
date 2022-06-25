@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "NodeJS Interview Documentação",
+    "title": "NodeJS Interview - Documentação",
     "description": "Esta é a documentação da API desenvolvida como requisito inicial para a entrevista técnica.",
     "version": "1.0.0",
     "contact": {
