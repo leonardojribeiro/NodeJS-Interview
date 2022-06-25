@@ -19,6 +19,7 @@
 - [x] Testes unitários
 - [x] Testes de integração
 - [x] Documentação
+- [x] Deploy
 
 
 ## Como executar?
@@ -48,4 +49,6 @@ Execute o comando ```yarn build``` no seu terminal.
 ### Executar em modo de produção
 Execute o comando ```yarn start``` no seu terminal.
 
+## Como acessar?
 
+Acesse a versão de produção [aqui](https://nodejs-interview-dot-global-leo.rj.r.appspot.com/).
