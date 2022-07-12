@@ -51,4 +51,4 @@ Execute o comando ```yarn start``` no seu terminal.
 
 ## Como acessar?
 
-Acesse a versão de produção [aqui](https://nodejs-interview-dot-global-leo.rj.r.appspot.com/).
+Acesse a versão de produção: [GCP](https://nodejs-interview-dot-global-leo.rj.r.appspot.com/) ou [AWS](http://ec2-18-231-8-203.sa-east-1.compute.amazonaws.com/).
